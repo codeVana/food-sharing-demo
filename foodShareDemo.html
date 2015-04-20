@@ -1,0 +1,54 @@
+<head>
+  <title>foodShareDemo</title>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>Leftover food sharing service! ({{claimedCount}})</h1>
+      
+      <label class="hide-unclaimed">
+        <input type="checkbox" checked="{{hideUnclaimed}}"/>
+        Hide unclaimed food
+      </label>
+      
+      {{>loginButtons}}
+      
+      {{#if currentUser}}
+        <form class="new-foodItem">
+          <input type="text" name="description" placeholder="description"/>
+          <input type="text" name="location" placeholder="location"/>
+          <input type="submit" value="Submit">
+        </form>
+      {{/if}}
+      
+    </header>
+    
+    <ul>
+      {{#each foodItems}}
+        {{>foodItem}}
+      {{/each}}
+    </ul>
+  </div>
+</body>
+
+<template name="foodItem">
+  <li class="{{#if claimed}}claimed{{/if}}">
+    {{#if currentUser}}
+      {{#if isOwner}}
+        <button class="delete">&times;</button>
+      {{/if}}
+    {{/if}}
+    
+    {{#if currentUser}}
+      {{#if claimed}}
+        <span class="text">Claimed!</span>
+      {{else}}
+        <button class="claim">Claim!</button>
+      {{/if}}
+    {{/if}}
+    
+    <span class="text"><strong>{{creatorUsername}}</strong> - {{description}}</span>
+    <span class="text">Location: {{location}}</span>
+  </li>
+</template>
